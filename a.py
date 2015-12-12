@@ -7,6 +7,8 @@ import os
 from taobao import Taobao
 class Spider(object):
     def __init__(self):
+        self.tao=Taobao()
+        self.tao.main()
         self.u='http://mm.taobao.com/json/request_top_list.htm?page='
         self.rule_1='<div class="list-item">.*?<div class="pic-word">.*?<a href="//(.*?)".*?<img src="//(.*?)".*?<a class="lady-name" .*?>(.*?)</a>'
         self.rule_2='<img.*?src="//(.*?)"'
@@ -44,12 +46,9 @@ class Spider(object):
                  item=re.findall(self.compile(self.rule_1),self.read(self.baseurl(i)))
                  for temp in item:
                      if self.mkdir(temp[2]):
-                         tao=Taobao('http://'+temp[0])
-                         p=tao.main()
+                         p=self.tao.getpage('http://'+temp[0])
                          p=p.decode('gbk')
                          p=p.encode('gbk')
-                         with open('a.html','w') as f:
-                             f.write(p)
                          picpart=re.search(self.compile(self.rule_3),p)
                          print picpart.group(1)
                          pic=re.findall(self.compile(self.rule_2),picpart.group(1))

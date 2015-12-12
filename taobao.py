@@ -10,8 +10,7 @@ import webbrowser
 class Taobao:
 
     #初始化方法
-    def __init__(self,MyUrl):
-        self.MyUrl=MyUrl
+    def __init__(self):
         #登录的URL
         self.loginURL = "https://login.taobao.com/member/login.jhtml"
         #登录POST数据时发送的头部信息
@@ -32,7 +31,7 @@ class Taobao:
             'TPL_checkcode':'',
             'CtrlVersion': '1,0,0,7',
             'TPL_password':'',
-            'TPL_redirect_url':self.MyUrl,
+            'TPL_redirect_url':'https://mm.taobao.com/self/model_info.htm?user_id=687471686',
             'TPL_username':self.username,
             'loginsite':'0',
             'newlogin':'0',
@@ -214,8 +213,8 @@ class Taobao:
         else:
             print "登录失败"
             return False
-    def getpage(self):
-        url=self.newOpener.open(self.MyUrl)
+    def getpage(self,pointurl):
+        url=self.newOpener.open(pointurl)
         page=url.read()
         return page
 
@@ -253,8 +252,6 @@ class Taobao:
         #利用st进行登录
         result = self.loginByST(st,self.username)
         if result:
-            #获得所有宝贝的页面
-            page = self.getpage()
-            return page
+            print '登陆成功'
         else:
             print "登录失败"
