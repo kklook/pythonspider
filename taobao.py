@@ -5,7 +5,7 @@ import urllib2
 import cookielib
 import re
 import webbrowser
-
+from socketserver import TcpLink
 #模拟登录淘宝类
 class Taobao:
 
@@ -16,7 +16,7 @@ class Taobao:
         #登录POST数据时发送的头部信息
         self.loginHeaders =  {
             'Host':'login.taobao.com',
-            'User-Agent' : 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:35.0) Gecko/20100101 Firefox/35.0',
+            'User-Agent' : 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.86 Safari/537.36',
             'Referer' : 'https://login.taobao.com/member/login.jhtml',
             'Content-Type': 'application/x-www-form-urlencoded',
             'Connection' : 'Keep-Alive'
@@ -68,7 +68,7 @@ class Taobao:
             'oslanguage':'zh-CN',
             'sr':'1366*768',
             'osVer':'windows|6.1',
-            'naviVer':'firefox|35'
+            'naviVer':'Chrome|46'
         }
         #将POST的数据进行编码转换
         self.postData = urllib.urlencode(self.post)
@@ -232,7 +232,8 @@ class Taobao:
                 if not checkCode == False:
                     print "验证码获取成功"
                     print "请在浏览器中输入您看到的验证码"
-                    webbrowser.open_new_tab(checkCode)
+                    s=TcpLink(checkCode)
+                    s.run()
                     self.loginWithCheckCode()
                 #验证码链接为空，无效验证码
                 else:

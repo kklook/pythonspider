@@ -16,9 +16,5 @@ class SocketClient(object):
                 print '服务器未上线'
                 continue
             webbrowser.open_new_tab(socketclient.recv(1024))
-            print '请输入验证码:'
-            self.data=raw_input()
-            socketclient.send(self.data)
-            socketclient.close()
 s=SocketClient()
 s.run()
